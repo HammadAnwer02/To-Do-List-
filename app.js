@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
-require('dotenv').config();
+// require('dotenv').config();
 
 // const atlasUserName = process.env.ATLAS_USERNAME;
 // const atlasPassword = process.env.ATLAS_PASSWORD;
