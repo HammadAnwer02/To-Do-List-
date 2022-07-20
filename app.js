@@ -4,10 +4,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
-// require('dotenv').config();
+require('dotenv').config();
 
-// const atlasUserName = process.env.ATLAS_USERNAME;
-// const atlasPassword = process.env.ATLAS_PASSWORD;
+
+const atlasUserName = process.env.ATLAS_USERNAME;
+const atlasPassword = process.env.ATLAS_PASSWORD;
 
 
 
@@ -18,7 +19,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://HammadAnwer02:K9OYN1mXBcgxU1Dd@cluster0.df3b6.mongodb.net/todolistDB", {useNewUrlParser: true, useUnifiedTopology:true});
+mongoose.connect("mongodb+srv://"+atlasUserName+":" + atlasPassword+ "@cluster0.df3b6.mongodb.net/todolistDB", {useNewUrlParser: true, useUnifiedTopology:true});
 
 const itemsSchema = {
   name: String
