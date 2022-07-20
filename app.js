@@ -4,6 +4,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
+require('dotenv').config();
+
+const atlasUserName = process.env.ATLAS_USERNAME;
+const atlasPassword = process.env.ATLAS_PASSWORD;
+
+
 
 const app = express();
 
@@ -12,7 +18,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://HammadAnwer02:K9OYN1mXBcgxU1Dd@cluster0.df3b6.mongodb.net/todolistDB", {useNewUrlParser: true, useUnifiedTopology:true});
+mongoose.connect("mongodb+srv://"+atlasUserName+":" + atlasPassword+ "@cluster0.df3b6.mongodb.net/todolistDB", {useNewUrlParser: true, useUnifiedTopology:true});
 
 const itemsSchema = {
   name: String
@@ -114,14 +120,16 @@ app.post("/delete", function(req, res){
   const listName = req.body.listName;
 
   if (listName === "Today") {
-    Item.findByIdAndRemove(checkedItemId, function(err){
+    Item.deleteOne({_id:checkedItemId}, function(err){
       if (!err) {
         console.log("Successfully deleted checked item.");
         res.redirect("/");
+      } else {
+        console.log(err);
       }
     });
   } else {
-    List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, function(err, foundList){
+    List.updateOne({name: listName}, {$pull: {items: {_id: checkedItemId}}}, function(err, foundList){
       if (!err){
         res.redirect("/" + listName);
       }
